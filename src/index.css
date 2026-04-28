@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --color-brand-purple: #8B5CF6;
+  --color-brand-blue: #3B82F6;
+  --color-brand-orange: #F59E0B;
+  --color-dark-bg: #0b0b0b;
+}
+
+:root {
+  background-color: var(--color-dark-bg);
+  color: white;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+canvas {
+  touch-action: none;
+}
+
+/* Custom scrollbar to match cinematic feel */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0b0b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.glitch-text {
+  text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
+  position: relative;
+  animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+  20% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+  40% { text-shadow: 2px 0 #8B5CF6, -2px 0 #3B82F6; }
+  60% { text-shadow: -2px 0 #8B5CF6, 2px 0 #3B82F6; transform: skew(1deg); }
+  80% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+  100% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; transform: skew(-1deg); }
+}
+
+.stat-card {
+  @apply border-l-2 border-brand-purple/20 pl-6 py-4 transition-all hover:border-brand-purple hover:bg-white/5;
+}
