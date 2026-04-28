@@ -265,7 +265,7 @@ const AboutSection = () => {
             className="relative w-full h-full rounded-[2rem] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8)] border border-white/10"
           >
             <img
-              src="/assets/4.JPEG"
+              src="/assets/corbeen.JPEG"
               alt="Corbeen - Managing Director"
               className="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 hover:brightness-100 transition-all duration-[1s]"
             />
