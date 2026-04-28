@@ -10,7 +10,7 @@ const VideoGallery = () => {
   });
 
   const cards = [
-    { title: "Neon Dreams", category: "Commercial", src: "/assets/video1.mp4" },
+    { title: "Neon Dreams", category: "Commercial", src: "https://www.youtube.com/embed/LhAEZmU_54s?autoplay=1&mute=1&loop=1&playlist=LhAEZmU_54s", isYoutube: true },
     { title: "Echoes", category: "Short Film", src: "/assets/video3.MOV" },
     { title: "Velocity", category: "Automotive", src: "/assets/video4.MP4" },
     { title: "Urban Pulse", category: "Documentary", src: "/assets/video5.MP4" },
@@ -67,11 +67,21 @@ const VideoGallery = () => {
                 style={{ x, scale, opacity, z, position: 'absolute', transformStyle: 'preserve-3d' }}
                 className="w-[85vw] md:w-[50vw] aspect-[9/16] md:aspect-[9/16] rounded-2xl md:rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/5 group cursor-pointer"
               >
-                <video
-                  src={card.src}
-                  autoPlay loop muted playsInline
-                  className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
-                />
+                {card.isYoutube ? (
+                  <iframe
+                    src={card.src}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                  />
+                ) : (
+                  <video
+                    src={card.src}
+                    autoPlay loop muted playsInline
+                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                  />
+                )}
 
                 <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="translate-y-6 group-hover:translate-y-0 transition-transform duration-500 ease-out">
