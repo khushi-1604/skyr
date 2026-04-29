@@ -10,11 +10,11 @@ const VideoGallery = () => {
   });
 
   const cards = [
-    { title: "Neon Dreams", category: "Commercial", src: "/assets/video1.mp4"},
-    { title: "Echoes", category: "Short Film", src: "/assets/video3.mp4" },
+    { title: "Neon Dreams", category: "Commercial", src: "/assets/video1.mp4" },
+    { title: "Echoes", category: "Short Film", src: "/assets/video3.mov" },
     { title: "Velocity", category: "Automotive", src: "/assets/video4.mp4" },
     { title: "Urban Pulse", category: "Documentary", src: "/assets/video5.mp4" },
-    { title: "Ascension", category: "Music Video", src: "/assets/video6.mp4" }
+    { title: "Ascension", category: "Music Video", src: "/assets/video6.mov" }
   ];
 
   return (
@@ -134,7 +134,7 @@ const PhotoGallery = () => {
     { src: "/assets/4.JPEG", title: "Street" },
     { src: "/assets/5.jpeg", title: "Concept" },
     { src: "/assets/6.jpeg", title: "Depth" },
-     ];
+  ];
 
   return (
     <section ref={containerRef} className="relative w-full bg-black block" style={{ height: `${photos.length * 100}vh` }} id="stills">
