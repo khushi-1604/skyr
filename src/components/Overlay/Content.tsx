@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { MousePointer2, Play, Users, Clock, ArrowRight } from 'lucide-react';
-import { useRef } from 'react';
+import { MousePointer2, Play, Users, Clock, ArrowRight, Volume2, ExternalLink } from 'lucide-react';
+import { useRef, useState } from 'react';
 
 const VideoGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -8,115 +8,153 @@ const VideoGallery = () => {
     target: containerRef,
     offset: ["start start", "end end"]
   });
+  const [activeYoutubeId, setActiveYoutubeId] = useState<string | null>(null);
 
   const cards = [
-    { title: "Neon Dreams", category: "Commercial", src: "/assets/video1.mp4" },
-    { title: "Echoes", category: "Short Film", src: "/assets/video3.mov" },
-    { title: "Velocity", category: "Automotive", src: "/assets/video4.mp4" },
-    { title: "Urban Pulse", category: "Documentary", src: "/assets/video5.mp4" },
-    { title: "Ascension", category: "Music Video", src: "/assets/video6.mov" }
+    { title: "Cinematic Vision", category: "Documentary", youtubeId: "DQ9igKXjyZ8", isYoutube: true },
+    { title: "Urban Energy", category: "Commercial", youtubeId: "NvqU0_tZx1E", isYoutube: true },
+    { title: "Motion Flow", category: "Short Film", youtubeId: "UnA4Lasqoho", isYoutube: true },
+    { title: "Dynamic Scene", category: "Music Video", youtubeId: "AH3b0S3aSww", isYoutube: true },
+    { title: "Visual Art", category: "Artistic", youtubeId: "BWyypgk_n3M", isYoutube: true },
+    { title: "Creative Pulse", category: "Editorial", youtubeId: "Dmmo_9YdAC8", isYoutube: true },
+    { title: "Cinematic Waves", category: "Experimental", youtubeId: "i2ci3JbWNWk", isYoutube: true },
+    { title: "Visual Symphony", category: "Showcase", youtubeId: "Cyl5Wf_Z444", isYoutube: true }
   ];
 
   return (
-    <section ref={containerRef} className="relative h-[500vh] w-full bg-black block" id="timeline">
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden perspective-[1000px]">
-
-        {/* Background ambient light */}
-        <div className="absolute inset-0 bg-brand-purple/10 blur-[150px] pointer-events-none" />
-
-        <div className="absolute top-12 left-6 md:top-20 md:left-12 z-30 pointer-events-none">
-          <h2 className="text-4xl md:text-7xl font-display font-bold uppercase tracking-tighter text-white drop-shadow-2xl">
-            The Archive
-          </h2>
-          <div className="h-1 w-24 bg-brand-purple mt-4 shadow-[0_0_20px_rgba(168,85,247,0.8)]" />
-        </div>
-
-        {/* Gallery Container */}
-        <div className="relative w-full h-full flex items-center justify-center">
-          {cards.map((card, i) => {
-            const times = cards.map((_, idx) => idx / (cards.length - 1));
-
-            const xValues = times.map(t => {
-              const positionIndex = i - (t * (cards.length - 1));
-              return `${positionIndex * 60}vw`;
-            });
-
-            const scaleValues = times.map(t => {
-              const positionIndex = Math.abs(i - (t * (cards.length - 1)));
-              return positionIndex === 0 ? 1 : 0.75;
-            });
-
-            const opacityValues = times.map(t => {
-              const positionIndex = Math.abs(i - (t * (cards.length - 1)));
-              return positionIndex === 0 ? 1 : 0.3;
-            });
-
-            const zValues = times.map(t => {
-              const positionIndex = Math.abs(i - (t * (cards.length - 1)));
-              return positionIndex === 0 ? "0px" : "-300px";
-            });
-
-            const x = useTransform(scrollYProgress, times, xValues);
-            const scale = useTransform(scrollYProgress, times, scaleValues);
-            const opacity = useTransform(scrollYProgress, times, opacityValues);
-            const z = useTransform(scrollYProgress, times, zValues);
-
-            return (
-              <motion.div
-                key={i}
-                style={{ x, scale, opacity, z, position: 'absolute', transformStyle: 'preserve-3d' }}
-                className="w-[85vw] md:w-[50vw] aspect-[9/16] md:aspect-[9/16] rounded-2xl md:rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/5 group cursor-pointer"
-              >
-                {card.isYoutube ? (
-                  <iframe
-                    src={card.src}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
-                  />
-                ) : (
-                  <video
-                    src={card.src}
-                    autoPlay loop muted playsInline
-                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
-                  />
-                )}
-
-                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="translate-y-6 group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                    <div className="flex items-center gap-4 mb-3">
-                      <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-white text-[10px] md:text-xs uppercase tracking-widest font-bold border border-white/10">
-                        {card.category}
-                      </span>
-                    </div>
-                    <h3 className="text-3xl md:text-5xl font-display font-bold text-white mb-2 tracking-tight">
-                      {card.title}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Focus outline gradient */}
-                <div className="absolute inset-0 border-2 border-brand-purple/0 group-hover:border-brand-purple/50 rounded-2xl md:rounded-[2rem] transition-colors duration-500 pointer-events-none" />
-
-              </motion.div>
-            )
-          })}
-        </div>
-
-        {/* Scroll Progress Indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 z-30">
-          <span className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-bold">Discover</span>
-          <div className="w-24 md:w-48 h-[2px] bg-white/10 rounded-full overflow-hidden flex">
-            <motion.div
-              className="h-full bg-gradient-to-r from-brand-blue to-brand-purple origin-left"
-              style={{ scaleX: scrollYProgress, width: '100%' }}
+    <>
+      {/* Modal for full YouTube video */}
+      {activeYoutubeId && (
+        <div 
+          className="fixed inset-0 bg-black/95 backdrop-blur z-50 flex items-center justify-center p-4"
+          onClick={() => setActiveYoutubeId(null)}
+        >
+          <div 
+            className="w-full max-w-4xl aspect-video relative rounded-xl overflow-hidden shadow-2xl border border-brand-purple/30"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <iframe
+              src={`https://www.youtube.com/embed/${activeYoutubeId}?autoplay=1&rel=0`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
             />
+            <button
+              onClick={() => setActiveYoutubeId(null)}
+              className="absolute top-4 right-4 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 transition-all duration-300 backdrop-blur"
+            >
+              ✕
+            </button>
+            <div className="absolute bottom-4 left-4 text-white/70 text-sm flex items-center gap-2 backdrop-blur-md bg-black/30 px-3 py-2 rounded-full">
+              <Volume2 size={14} />
+              Double-click to expand
+            </div>
           </div>
         </div>
+      )}
 
-      </div>
-    </section>
+      <section ref={containerRef} className="relative h-[600vh] w-full bg-black block" id="timeline">
+        <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden perspective-[1000px]">
+
+          {/* Background ambient light */}
+          <div className="absolute inset-0 bg-brand-purple/10 blur-[150px] pointer-events-none" />
+
+          <div className="absolute top-12 left-6 md:top-20 md:left-12 z-30 pointer-events-none">
+            <h2 className="text-4xl md:text-7xl font-display font-bold uppercase tracking-tighter text-white drop-shadow-2xl">
+              The Archive
+            </h2>
+            <div className="h-1 w-24 bg-brand-purple mt-4 shadow-[0_0_20px_rgba(168,85,247,0.8)]" />
+          </div>
+
+          {/* Gallery Container */}
+          <div className="relative w-full h-full flex items-center justify-center">
+            {cards.map((card, i) => {
+              const times = cards.map((_, idx) => idx / (cards.length - 1));
+
+              const xValues = times.map(t => {
+                const positionIndex = i - (t * (cards.length - 1));
+                return `${positionIndex * 60}vw`;
+              });
+
+              const scaleValues = times.map(t => {
+                const positionIndex = Math.abs(i - (t * (cards.length - 1)));
+                return positionIndex === 0 ? 1 : 0.75;
+              });
+
+              const opacityValues = times.map(t => {
+                const positionIndex = Math.abs(i - (t * (cards.length - 1)));
+                return positionIndex === 0 ? 1 : 0.3;
+              });
+
+              const zValues = times.map(t => {
+                const positionIndex = Math.abs(i - (t * (cards.length - 1)));
+                return positionIndex === 0 ? "0px" : "-300px";
+              });
+
+              const x = useTransform(scrollYProgress, times, xValues);
+              const scale = useTransform(scrollYProgress, times, scaleValues);
+              const opacity = useTransform(scrollYProgress, times, opacityValues);
+              const z = useTransform(scrollYProgress, times, zValues);
+
+              return (
+                <motion.div
+                  key={i}
+                  style={{ x, scale, opacity, z, position: 'absolute', transformStyle: 'preserve-3d' }}
+                  className="w-[85vw] md:w-[50vw] aspect-[9/16] md:aspect-[9/16] rounded-2xl md:rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/5 group cursor-pointer"
+                  onDoubleClick={() => setActiveYoutubeId(card.youtubeId)}
+                >
+                  <div className="relative w-full h-full">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${card.youtubeId}?rel=0&modestbranding=1`}
+                      frameBorder="0"
+                      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                    />
+
+                    <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black via-black/50 to-transparent">
+                      <div className="translate-y-6 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                        <div className="flex items-center gap-4 mb-3">
+                          <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-white text-[10px] md:text-xs uppercase tracking-widest font-bold border border-white/10">
+                            {card.category}
+                          </span>
+                          <span className="px-3 py-1 bg-brand-purple/20 backdrop-blur-md rounded-full text-white text-[10px] md:text-xs uppercase tracking-widest font-bold border border-brand-purple/30 flex items-center gap-2">
+                            <Volume2 size={12} />
+                            With Audio
+                          </span>
+                        </div>
+                        <h3 className="text-3xl md:text-5xl font-display font-bold text-white mb-2 tracking-tight">
+                          {card.title}
+                        </h3>
+                        <div className="flex items-center gap-2 text-white/60 text-sm">
+                          <ExternalLink size={14} />
+                          Double-click to expand
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Focus outline gradient */}
+                    <div className="absolute inset-0 border-2 border-brand-purple/0 group-hover:border-brand-purple/50 rounded-2xl md:rounded-[2rem] transition-colors duration-500 pointer-events-none" />
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+
+          {/* Scroll Progress Indicator */}
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 z-30">
+            <span className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-bold">Discover</span>
+            <div className="w-24 md:w-48 h-[2px] bg-white/10 rounded-full overflow-hidden flex">
+              <motion.div
+                className="h-full bg-gradient-to-r from-brand-blue to-brand-purple origin-left"
+                style={{ scaleX: scrollYProgress, width: '100%' }}
+              />
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </>
   )
 }
 
@@ -335,151 +373,200 @@ const AboutSection = () => {
 export default function Overlay() {
   return (
     <div className="relative z-10 w-full">
-      {/* SECTION 1: HERO */}
+      {/* SECTION 1: HERO - Enhanced with Spectacular Animations */}
       <section className="h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden" id="hero">
-        {/* Premium animated background */}
+        {/* Multi-layered animated background */}
         <div className="absolute inset-0 -z-20">
+          {/* Animated gradient orbs */}
           <motion.div
             animate={{
-              x: [0, 50, 0],
-              y: [0, 30, 0],
+              x: [0, 100, 0],
+              y: [0, 50, 0],
+              scale: [1, 1.2, 1]
             }}
             transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-brand-purple/20 to-transparent blur-[100px] rounded-full"
+            className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-brand-purple/30 to-transparent blur-[100px] rounded-full"
           />
           <motion.div
             animate={{
-              x: [0, -50, 0],
-              y: [0, -30, 0],
+              x: [0, -100, 0],
+              y: [0, -50, 0],
+              scale: [1, 1.1, 1]
             }}
             transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-brand-blue/20 to-transparent blur-[100px] rounded-full"
+            className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-brand-blue/30 to-transparent blur-[100px] rounded-full"
+          />
+          <motion.div
+            animate={{
+              x: [0, 50, -50, 0],
+              y: [0, 100, -50, 0],
+              scale: [0.8, 1, 0.9, 0.8]
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-r from-brand-orange/20 via-transparent to-transparent blur-[90px] rounded-full"
           />
         </div>
 
-        {/* Premium grid overlay */}
+        {/* Premium animated grid overlay */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
-          transition={{ duration: 2 }}
-          className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(168,85,247,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.05)_1px,transparent_1px)] bg-[size:100px_100px]"
+          animate={{ opacity: 0.25 }}
+          transition={{ duration: 3 }}
+          className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(168,85,247,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.08)_1px,transparent_1px)] bg-[size:80px_80px]"
         />
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-center relative z-10"
-        >
-          {/* Premium label with backdrop blur */}
+        {/* Floating particles */}
+        {[...Array(6)].map((_, i) => (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            key={i}
+            animate={{
+              x: Math.random() * 200 - 100,
+              y: Math.random() * 300 - 150,
+              opacity: [0.3, 0.8, 0.3]
+            }}
+            transition={{
+              duration: 10 + i * 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute w-1 h-1 bg-white rounded-full blur-sm"
+            style={{
+              left: `${20 + i * 13}%`,
+              top: `${30 + i * 10}%`
+            }}
+          />
+        ))}
+
+        {/* Main content */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="text-center relative z-10 space-y-8"
+        >
+          {/* Premium label with glowing effect */}
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mb-8 inline-block px-4 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-full"
+            className="inline-block px-4 py-2 backdrop-blur-xl bg-white/5 border border-white/15 rounded-full shadow-[0_0_30px_rgba(168,85,247,0.2)]"
           >
-            <span className="text-xs uppercase tracking-[0.3em] text-brand-purple font-display font-semibold">
-              Cinematic Excellence
+            <span className="text-xs uppercase tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-blue font-display font-semibold">
+              ✨ Cinematic Excellence ✨
             </span>
           </motion.div>
 
-          {/* Main title with premium animation */}
-          <div className="mb-6 relative">
-            <motion.h1
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1.2,
-                delay: 0.3,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              className="text-8xl md:text-9xl font-display font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-brand-purple"
-            >
-              SKYR
-            </motion.h1>
-
-            {/* Premium underline with glow */}
+          {/* Main title with stagger animation */}
+          <div className="relative space-y-4">
             <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              whileInView={{ width: "100%", opacity: 1 }}
+              initial={{ opacity: 0, y: 80, rotateX: 90 }}
+              animate={{ opacity: 1, y: 0, rotateX: 0 }}
               transition={{
-                duration: 1.5,
-                delay: 0.8,
+                duration: 1.4,
+                delay: 0.4,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
-              className="h-0.5 mx-auto mt-4 bg-gradient-to-r from-transparent via-brand-purple to-brand-blue shadow-[0_0_30px_rgba(168,85,247,0.6),0_0_60px_rgba(59,130,246,0.4)]"
-            />
+              style={{ transformOrigin: "center bottom", transformStyle: "preserve-3d" }}
+              className="relative"
+            >
+              <h1 className="text-[5rem] md:text-[8rem] lg:text-9xl font-display font-black tracking-tighter">
+                <motion.span
+                  animate={{ 
+                    y: [-15, 15, -15],
+                    rotateZ: [-2, 2, -2]
+                  }}
+                  transition={{ 
+                    duration: 6, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }}
+                  className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-brand-purple drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]"
+                >
+                  SKYR
+                </motion.span>
+              </h1>
+              
+              {/* Animated underline with glow effect */}
+              <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={{
+                  duration: 1.2,
+                  delay: 1,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                className="h-1 mx-auto mt-6 bg-gradient-to-r from-transparent via-brand-purple via-50% to-transparent shadow-[0_0_40px_rgba(168,85,247,0.8),0_0_80px_rgba(59,130,246,0.4)] rounded-full"
+                style={{ originX: 0.5 }}
+              />
+            </motion.div>
+
+            {/* Subtitle with fade-in */}
+            <motion.div
+              initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 1, delay: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="space-y-3 pt-4"
+            >
+              <p className="text-lg md:text-2xl text-zinc-100 font-light tracking-wide">
+                Where Vision Meets Creation
+              </p>
+              <p className="text-xs md:text-sm text-zinc-400 uppercase tracking-[0.15em] font-display font-medium">
+                Built for Brands that are Meant to Rise
+              </p>
+            </motion.div>
           </div>
 
-          {/* Premium tagline */}
-          <motion.div
-            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1, delay: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="space-y-2"
-          >
-            <p className="text-base md:text-lg text-zinc-300 font-light tracking-wide">
-              Where Vision Meets Creation
-            </p>
-            <p className="text-xs md:text-sm text-zinc-400 uppercase tracking-[0.2em] font-display">
-              Built for Brands that are Meant to Rise
-            </p>
-          </motion.div>
 
-          {/* Premium CTA scroll indicator */}
+
+          {/* Premium scroll indicator */}
           <motion.div
-            animate={{ y: [0, 12, 0], opacity: [0.5, 1, 0.5] }}
+            animate={{ y: [0, 12, 0], opacity: [0.4, 1, 0.4] }}
             transition={{
               duration: 3,
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="mt-16"
+            className="pt-12"
           >
-            <motion.svg
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1.3 }}
+            <svg
               className="w-6 h-6 mx-auto text-brand-purple"
               fill="none"
-              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </motion.svg>
+              <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
           </motion.div>
         </motion.div>
 
-        {/* Floating premium elements */}
+        {/* Decorative corner elements */}
         <motion.div
           animate={{
-            x: [0, 20, -20, 0],
-            y: [0, -30, 30, 0],
+            x: [0, 20, 0],
+            y: [0, -20, 0],
           }}
           transition={{
-            duration: 20,
+            duration: 12,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeInOut"
           }}
-          className="absolute top-1/4 left-1/4 w-1 h-1 bg-brand-purple rounded-full shadow-[0_0_20px_rgba(168,85,247,0.8)]"
+          className="absolute top-10 right-10 w-32 h-32 border border-brand-purple/20 rounded-3xl pointer-events-none"
         />
         <motion.div
           animate={{
-            x: [0, -30, 30, 0],
-            y: [0, 20, -20, 0],
+            x: [0, -20, 0],
+            y: [0, 20, 0],
           }}
           transition={{
-            duration: 25,
+            duration: 15,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 1,
+            delay: 1
           }}
-          className="absolute bottom-1/3 right-1/4 w-1 h-1 bg-brand-blue rounded-full shadow-[0_0_20px_rgba(59,130,246,0.8)]"
+          className="absolute bottom-10 left-10 w-32 h-32 border border-brand-blue/20 rounded-3xl pointer-events-none"
         />
       </section>
 
