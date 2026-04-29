@@ -137,7 +137,7 @@ const PhotoGallery = () => {
   ];
 
   return (
-    <section ref={containerRef} className="relative w-full bg-black block" style={{ height: `${photos.length * 100}vh` }} id="stills">
+    <section ref={containerRef} className="relative w-full bg-black block" style={{ height: `${photos.length * 280}vh` }} id="stills">
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden perspective-[1500px]">
 
         <div className="absolute inset-0 bg-brand-blue/5 blur-[120px] pointer-events-none" />
@@ -163,8 +163,8 @@ const PhotoGallery = () => {
                 const normalizedProgress = (t - threshold) / (exitThreshold - threshold || 1);
                 return `-${normalizedProgress * 120}vh`;
               }
-              const offset = (threshold - t) * 100;
-              return `${offset}px`;
+              const offset = (threshold - t) * 230;
+              return `${offset}vh`;
             });
 
             const scaleValues = times.map(t => {
