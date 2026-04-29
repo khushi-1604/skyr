@@ -336,19 +336,151 @@ export default function Overlay() {
   return (
     <div className="relative z-10 w-full">
       {/* SECTION 1: HERO */}
-      <section className="h-screen flex flex-col items-center justify-center px-6" id="hero">
+      <section className="h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden" id="hero">
+        {/* Premium animated background */}
+        <div className="absolute inset-0 -z-20">
+          <motion.div
+            animate={{
+              x: [0, 50, 0],
+              y: [0, 30, 0],
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-brand-purple/20 to-transparent blur-[100px] rounded-full"
+          />
+          <motion.div
+            animate={{
+              x: [0, -50, 0],
+              y: [0, -30, 0],
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-brand-blue/20 to-transparent blur-[100px] rounded-full"
+          />
+        </div>
+
+        {/* Premium grid overlay */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ duration: 2 }}
+          className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(168,85,247,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.05)_1px,transparent_1px)] bg-[size:100px_100px]"
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="text-center"
+          transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="text-center relative z-10"
         >
-          <span className="text-xs uppercase tracking-[0.5em] text-brand-purple mb-4 block font-display">Video Editor & Cinematographer</span>
-          <h1 className="text-7xl md:text-9xl font-display font-bold tracking-tighter mb-4">SKYR</h1>
-          <p className="text-zinc-500 max-w-md mx-auto text-sm md:text-base leading-relaxed italic">
-            “Built for Brands that are meant to Rise”
-          </p>
+          {/* Premium label with backdrop blur */}
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mb-8 inline-block px-4 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-full"
+          >
+            <span className="text-xs uppercase tracking-[0.3em] text-brand-purple font-display font-semibold">
+              Cinematic Excellence
+            </span>
+          </motion.div>
+
+          {/* Main title with premium animation */}
+          <div className="mb-6 relative">
+            <motion.h1
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1.2,
+                delay: 0.3,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              className="text-8xl md:text-9xl font-display font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-brand-purple"
+            >
+              SKYR
+            </motion.h1>
+
+            {/* Premium underline with glow */}
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              whileInView={{ width: "100%", opacity: 1 }}
+              transition={{
+                duration: 1.5,
+                delay: 0.8,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              className="h-0.5 mx-auto mt-4 bg-gradient-to-r from-transparent via-brand-purple to-brand-blue shadow-[0_0_30px_rgba(168,85,247,0.6),0_0_60px_rgba(59,130,246,0.4)]"
+            />
+          </div>
+
+          {/* Premium tagline */}
+          <motion.div
+            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1, delay: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="space-y-2"
+          >
+            <p className="text-base md:text-lg text-zinc-300 font-light tracking-wide">
+              Where Vision Meets Creation
+            </p>
+            <p className="text-xs md:text-sm text-zinc-400 uppercase tracking-[0.2em] font-display">
+              Built for Brands that are Meant to Rise
+            </p>
+          </motion.div>
+
+          {/* Premium CTA scroll indicator */}
+          <motion.div
+            animate={{ y: [0, 12, 0], opacity: [0.5, 1, 0.5] }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="mt-16"
+          >
+            <motion.svg
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.3 }}
+              className="w-6 h-6 mx-auto text-brand-purple"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </motion.svg>
+          </motion.div>
         </motion.div>
+
+        {/* Floating premium elements */}
+        <motion.div
+          animate={{
+            x: [0, 20, -20, 0],
+            y: [0, -30, 30, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute top-1/4 left-1/4 w-1 h-1 bg-brand-purple rounded-full shadow-[0_0_20px_rgba(168,85,247,0.8)]"
+        />
+        <motion.div
+          animate={{
+            x: [0, -30, 30, 0],
+            y: [0, 20, -20, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+          className="absolute bottom-1/3 right-1/4 w-1 h-1 bg-brand-blue rounded-full shadow-[0_0_20px_rgba(59,130,246,0.8)]"
+        />
       </section>
 
       {/* SECTION 2: VIDEO GALLERY */}
