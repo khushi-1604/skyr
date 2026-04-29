@@ -12,8 +12,8 @@ const VideoGallery = () => {
   const cards = [
     { title: "Neon Dreams", category: "Commercial", src: "https://www.youtube.com/embed/LhAEZmU_54s?autoplay=1&mute=1&loop=1&playlist=LhAEZmU_54s", isYoutube: true },
     { title: "Echoes", category: "Short Film", src: "/assets/video3.MOV" },
-    { title: "Velocity", category: "Automotive", src: "/assets/video4.MP4" },
-    { title: "Urban Pulse", category: "Documentary", src: "/assets/video5.MP4" },
+    { title: "Velocity", category: "Automotive", src: "/assets/video4.mp4" },
+    { title: "Urban Pulse", category: "Documentary", src: "/assets/video5.mp4" },
     { title: "Ascension", category: "Music Video", src: "/assets/video6.MOV" }
   ];
 
