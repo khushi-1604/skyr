@@ -131,7 +131,7 @@ const PhotoGallery = () => {
     { src: "/assets/1.jpeg", title: "Editorial" },
     { src: "/assets/2.jpeg", title: "Portraits" },
     { src: "/assets/3.jpeg", title: "Landscapes" },
-    { src: "/assets/4.JPEG", title: "Street" },
+    { src: "/assets/4.jpeg", title: "Street" },
     { src: "/assets/5.jpeg", title: "Concept" },
     { src: "/assets/6.jpeg", title: "Depth" },
   ];
